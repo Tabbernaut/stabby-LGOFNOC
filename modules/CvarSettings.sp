@@ -1,5 +1,5 @@
 #define CVS_CVAR_MAXLEN 64
-#define CVS_PLAYERNUMBER_CVAR "survivor_limit"
+#define CVS_PLAYERNUMBER_CVAR "survivor_limit"	//maybe cvar this string so people can decide on their own what cvar to base it on
 
 #define CVARS_DEBUG		0
 
@@ -17,14 +17,14 @@ static bool:bTrackingStarted;
 InitCvarSettings()
 {
 	CvarSettingsArray = CreateArray(_:CVSEntry);
-	PlayerNumber = FindCvar(
 	RegConsoleCmd("lgofnoc_cvarsettings", CVS_CvarSettings_Cmd, "List all ConVars being enforced by Lgofnoc");
 	RegConsoleCmd("lgofnoc_cvardiff", CVS_CvarDiff_Cmd, "List any ConVars that have been changed from their initialized values");
 	
 	RegServerCmd("lgofnoc_addcvar", CVS_AddCvar_Cmd, "Add a ConVar to be set by Lgofnoc");
-	RegServerCmd("lgofnoc_addcvar_playerscaled", CVS_AddCvarScaled_Cmd, "Add a ConVar with several possible values, one of which is selected based on player number and set by Lgofnoc");
+	RegServerCmd("lgofnoc_addcvar_scaled", CVS_AddCvar_Scaled_Cmd, "Add a ConVar with several possible values, one of which is selected based on player number and set by Lgofnoc");
 	RegServerCmd("lgofnoc_setcvars", CVS_SetCvars_Cmd, "Starts enforcing ConVars that have been added.");
 	RegServerCmd("lgofnoc_resetcvars", CVS_ResetCvars_Cmd, "Resets enforced ConVars.  Cannot be used during a match!");
+	PlayerNumberCvar = FindConVar(CVS_PLAYERNUMBER_CVAR);
 }
 
 public Action:CVS_SetCvars_Cmd(args)
@@ -58,7 +58,7 @@ public Action:CVS_AddCvar_Cmd(args)
 	return Plugin_Handled;
 }
 
-public Action:CVS_AddCvarScaled_Cmd(args)
+public Action:CVS_AddCvar_Scaled_Cmd(args)
 {
 	new playernum = GetConVarInt(PlayerNumberCvar);
 	if (args < 1 + playernum)
