@@ -61,9 +61,9 @@ public Action:CVS_AddCvar_Cmd(args)
 public Action:CVS_AddCvar_Scaled_Cmd(args)
 {
 	new playernum = GetConVarInt(PlayerNumberCvar);
-	if (args < 1 + playernum)
+	if (args < ++playernum)
 	{
-		PrintToServer("Usage: lgofnoc_addcvarex <cvar> <1v1Value> <2v2Value> <...>");
+		PrintToServer("Usage: lgofnoc_addcvar_scaled <cvar> <1v1Value> <2v2Value> <...>");
 		#if CVARS_DEBUG
 			decl String:cmdbuf[MAX_NAME_LENGTH];
 			GetCmdArgString(cmdbuf, sizeof(cmdbuf));
